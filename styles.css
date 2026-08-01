@@ -118,7 +118,7 @@ a { color: inherit; text-decoration: none; }
   display: grid; place-items: center;
   border: 1px solid currentColor; border-radius: 50%;
 }
-.brand-name { font-size: 0.78rem; letter-spacing: 0.42em; font-weight: 600; }
+.brand-name { font-size: 0.78rem; letter-spacing: 0.42em; font-weight: 600; white-space: nowrap; }
 .site-header:not(.scrolled) { color: var(--white); }
 .site-header.scrolled { color: var(--ink); }
 .header-cta {
@@ -339,6 +339,33 @@ a { color: inherit; text-decoration: none; }
 .method-step h3 { font-family: var(--serif); font-weight: 400; font-size: 1.6rem; margin: 0.7rem 0 0.8rem; }
 .method-step p { color: rgba(245,241,232,0.72); font-size: 0.95rem; max-width: 26rem; }
 
+/* ---------- Galería de vida ---------- */
+.gallery { padding: clamp(6rem, 14vh, 10rem) 3rem; background: var(--ivory-2); }
+.gallery-head { max-width: 76rem; margin: 0 auto 4rem; }
+.gallery-grid {
+  max-width: 76rem; margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem;
+}
+.gfig { position: relative; overflow: hidden; border-radius: 3px; margin: 0; }
+.gfig--tall { grid-row: span 2; }
+.gfig--wide { grid-column: span 2; }
+.gfig img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 1.4s var(--ease-out);
+}
+.gfig:hover img { transform: scale(1.05); }
+.gfig figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 3.5rem 1.4rem 1.3rem;
+  font-family: var(--serif); font-size: 1.02rem; font-style: italic;
+  color: var(--white);
+  background: linear-gradient(180deg, transparent, rgba(10,14,28,0.88));
+}
+.gfig--tall img { min-height: 30rem; }
+.gfig img { min-height: 15rem; }
+
 /* ---------- Banda visual ---------- */
 .band { position: relative; height: 88svh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .band img { position: absolute; inset: 0; width: 100%; height: 120%; object-fit: cover; }
@@ -393,4 +420,23 @@ a { color: inherit; text-decoration: none; }
   .method-steps { grid-template-columns: 1fr; gap: 2.4rem; }
   .contact-cols { grid-template-columns: 1fr; gap: 1.8rem; }
   .band { height: 60svh; }
+  .gallery { padding-left: 1.6rem; padding-right: 1.6rem; }
+  .gallery-head { margin-bottom: 2.2rem; }
+  .gallery-grid { grid-template-columns: 1fr; gap: 1.1rem; }
+  .gfig--tall { grid-row: auto; }
+  .gfig--wide { grid-column: auto; }
+  .gfig--tall img, .gfig img { min-height: 14rem; max-height: 20rem; }
+}
+
+/* Viewports bajos (teléfono en horizontal): el hero debe caber sin recortarse */
+@media (max-height: 600px) {
+  /* El hero crece con su contenido en vez de recortarlo */
+  .hero { min-height: auto; }
+  .hero-title { font-size: clamp(1.9rem, 6vw, 3rem); margin: 0.8rem 0 0.9rem; }
+  .hero-content { padding-bottom: 3rem; padding-top: 6.5rem; }
+  .hero-kicker span { font-size: 0.62rem; letter-spacing: 0.25em; }
+  .hero-sub { font-size: 0.9rem; }
+  .hero-actions { margin-top: 1.2rem; }
+  .btn { padding: 0.8rem 1.6rem; font-size: 0.72rem; }
+  .hero-scrollcue { display: none; }
 }
