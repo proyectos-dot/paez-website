@@ -10,6 +10,6 @@ window.DATOS = {
   whatsapp: "PENDIENTE",          // ¿es el mismo número o hay uno comercial?
   correo: "proyectos@paez.com.do",
   direccion: "Av. César Nicolás Penson No. 73, Gazcue, Santo Domingo",
-  horario: "PENDIENTE",
+  horario: "Lunes a viernes, 8:00 a. m. – 5:00 p. m.",
   redes: { instagram: "PENDIENTE", linkedin: "PENDIENTE", facebook: "PENDIENTE" }
 };
