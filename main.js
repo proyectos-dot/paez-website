@@ -46,12 +46,30 @@
     words = walk(manifestoText);
   }
 
-  /* ---------- Reveals con IntersectionObserver ---------- */
-  // Revelado por posición, no por IntersectionObserver: un salto instantáneo
-  // (ancla, scroll brusco) puede llevar una sección de "debajo" a "encima" sin
-  // que el ratio de intersección cambie nunca, y el observer jamás dispara.
+  /* ---------- Reveals ---------- */
+  // Dos mecanismos a propósito, porque cada uno cubre el punto ciego del otro:
+  //
+  // 1) IntersectionObserver: no depende de eventos de scroll. Cuando el
+  //    elemento que scrollea no es el documento (basta un `overflow` en un
+  //    ancestro), `window` no recibe ningún evento de scroll y todo el
+  //    contenido se queda invisible para siempre. El observer sí dispara.
+  // 2) Barrido por posición: un salto instantáneo — un ancla, un
+  //    scrollIntoView — puede pasar una sección de "debajo" a "encima" sin que
+  //    el ratio de intersección cambie nunca, y ahí el observer no dispara.
   let pending = Array.from(document.querySelectorAll("[data-project], [data-step], [data-reveal]"));
   let pendingStats = Array.from(document.querySelectorAll(".stat"));
+
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      el.classList.add("in-view");
+      pending = pending.filter((p) => p !== el);
+      io.unobserve(el);
+    }),
+    { rootMargin: "0px 0px -12% 0px", threshold: 0.01 }
+  );
+  pending.forEach((el) => io.observe(el));
 
   const runCounter = (stat) => {
     const target = parseInt(stat.dataset.count, 10);
@@ -93,6 +111,25 @@
     };
     requestAnimationFrame(tick);
   };
+
+  // Los contadores necesitan el mismo respaldo que los revelados: si el
+  // documento no emite eventos de scroll, se quedarían en cero para siempre.
+  const countIO = new IntersectionObserver(
+    (entries) => entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      countIO.unobserve(el);
+      if (el.classList.contains("rt")) {
+        pendingTotals = pendingTotals.filter((p) => p !== el);
+        runTotal(el);
+      } else {
+        pendingStats = pendingStats.filter((p) => p !== el);
+        runCounter(el);
+      }
+    }),
+    { threshold: 0.35 }
+  );
+  pendingStats.concat(pendingTotals).forEach((el) => countIO.observe(el));
 
   const revealPass = () => {
     const trigger = window.innerHeight * 0.85;
