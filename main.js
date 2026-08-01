@@ -57,12 +57,38 @@
     const target = parseInt(stat.dataset.count, 10);
     const suffix = stat.dataset.suffix || "";
     const numEl = stat.querySelector(".stat-num");
+    // Sin rAF (pestaña oculta) la animación nunca avanza: mostrar el valor final.
+    if (document.hidden || reduceMotion) {
+      numEl.textContent = target + suffix;
+      return;
+    }
     const t0 = performance.now();
     const dur = 1600;
     const tick = (t) => {
       const p = Math.min((t - t0) / dur, 1);
       const eased = 1 - Math.pow(1 - p, 3);
       numEl.textContent = Math.round(target * eased) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  // Totales de la memoria de obra: mismo contador, distinto marcado
+  let pendingTotals = Array.from(document.querySelectorAll(".rt"));
+  const runTotal = (el) => {
+    const target = parseInt(el.dataset.count, 10);
+    const suffix = el.dataset.suffix || "";
+    const numEl = el.querySelector(".rt-num");
+    if (document.hidden || reduceMotion) {
+      numEl.textContent = target.toLocaleString("es-DO") + suffix;
+      return;
+    }
+    const t0 = performance.now();
+    const dur = 1900;
+    const tick = (t) => {
+      const p = Math.min((t - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      numEl.textContent = Math.round(target * eased).toLocaleString("es-DO") + suffix;
       if (p < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -84,7 +110,34 @@
         return false;
       });
     }
+    if (pendingTotals.length) {
+      pendingTotals = pendingTotals.filter((el) => {
+        if (el.getBoundingClientRect().top >= trigger) return true;
+        runTotal(el);
+        return false;
+      });
+    }
   };
+
+  /* ---------- Filtros de la memoria de obra ---------- */
+  const filterBtns = Array.from(document.querySelectorAll(".rf"));
+  const records = Array.from(document.querySelectorAll(".rec"));
+  const emptyMsg = document.getElementById("recordEmpty");
+  if (filterBtns.length && records.length) {
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const f = btn.dataset.filter;
+        filterBtns.forEach((b) => b.classList.toggle("active", b === btn));
+        let shown = 0;
+        records.forEach((rec) => {
+          const match = f === "todos" || rec.dataset.tags.split(" ").includes(f);
+          rec.classList.toggle("is-hidden", !match);
+          if (match) shown++;
+        });
+        if (emptyMsg) emptyMsg.hidden = shown > 0;
+      });
+    });
+  }
 
   /* ---------- Nav de capítulos ---------- */
   const navLinks = Array.from(document.querySelectorAll(".chapter-nav a"));
