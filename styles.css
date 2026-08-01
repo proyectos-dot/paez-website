@@ -593,3 +593,23 @@ a { color: inherit; text-decoration: none; }
   .escena { min-height: 74svh; }
   .escena-inner { margin-left: 1.4rem; max-width: calc(100% - 2.8rem); }
 }
+
+/* Enlace a KONFOR dentro del método */
+.metodo-link {
+  color: var(--copper-soft);
+  border-bottom: 1px solid rgba(201,169,106,0.4);
+  padding-bottom: 1px; transition: border-color 0.3s;
+}
+.metodo-link:hover { border-color: var(--copper-soft); }
+
+/* Barra de contacto: aparece sola cuando existen los datos */
+.contacto-barra { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; margin-top: 1.6rem; }
+.contacto-barra:empty { display: none; }
+.cta-wa, .cta-tel {
+  font-size: 0.84rem; font-weight: 600; letter-spacing: 0.04em;
+  padding: 0.9rem 1.8rem; border-radius: 99px;
+  border: 1px solid rgba(10,14,28,0.14);
+  transition: all 0.3s var(--ease-out);
+}
+.cta-wa { background: #25d366; color: #06301a; border-color: transparent; }
+.cta-tel:hover { border-color: var(--copper); color: var(--copper); }
