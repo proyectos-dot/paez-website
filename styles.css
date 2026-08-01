@@ -709,3 +709,8 @@ body { font-size: 1rem; }
 .chapter-nav a { min-height: 44px; align-items: center; }
 .chapter-nav i { width: 9px; height: 9px; }
 .manifesto-text { line-height: 1.22; }
+
+/* Tercer estado: en plano. Un proyecto en mesa de dibujo no se
+   evalúa igual que una obra levantándose — decirlo es parte de
+   la disciplina de no prometer de más. */
+.dot--plano { background: transparent; border: 1.5px solid var(--ink-soft); }
