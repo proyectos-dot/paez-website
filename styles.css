@@ -7,8 +7,10 @@
   --ivory: #f5f3ee;
   --ivory-2: #ece8df;
   --ink: #0a0e1c;
-  --ink-soft: #3e4356;
-  --copper: #a8853b;
+  --ink-soft: #3a3f52;
+  /* #a8853b con blanco encima daba 3.36:1. #8a6a24 lo sube a 4.8:1. */
+  --copper: #8a6a24;
+  --copper-deco: #a8853b;
   --copper-soft: #c9a96a;
   --white: #fdfcf9;
   --serif: "Fraunces", Georgia, serif;
@@ -613,3 +615,97 @@ a { color: inherit; text-decoration: none; }
 }
 .cta-wa { background: #25d366; color: #06301a; border-color: transparent; }
 .cta-tel:hover { border-color: var(--copper); color: var(--copper); }
+
+/* ============================================================
+   CICLO 2 — corrección tipográfica medida
+   ============================================================ */
+body { font-size: 17px; }
+.section-body, .escena-sub, .hero-sub { font-size: 1.06rem; }
+.project-desc, .method-step p, .rs-ex, .contact-cols p { font-size: 0.98rem; }
+.rt-label, .stat-label, .rec-data dd, .rec-note, .rec-type { font-size: 0.92rem; }
+
+/* Áreas táctiles */
+.brand { padding: 0.5rem 0; min-height: 44px; }
+.rf { min-height: 44px; }
+.rec-map { display: inline-block; min-height: 44px; padding-top: 1.2rem; }
+.metodo-link { display: inline-block; min-height: 44px; padding: 0.5rem 0; }
+
+/* ============================================================
+   CICLO 3 — cobre legible
+   El cobre decorativo se mantiene donde no carga texto.
+   ============================================================ */
+.dot--live { background: var(--copper-deco); box-shadow: 0 0 0 3px rgba(168,133,59,0.2); }
+.progress-bar { background: linear-gradient(90deg, var(--copper-deco), var(--copper-soft)); }
+.escena-title em, .hero-title .accent { color: var(--copper-soft); }
+
+/* ============================================================
+   CICLO 4 — navegación en móvil
+   La espina de capítulos se ocultaba bajo 960px y dejaba el
+   sitio con dos enlaces para 21 pantallas de recorrido.
+   ============================================================ */
+.pie-nav {
+  max-width: 76rem; margin: 0 auto 2.5rem;
+  display: flex; flex-wrap: wrap; gap: 0.4rem 1.8rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(245,243,238,0.16);
+}
+.pie-nav a {
+  font-size: 0.95rem; color: rgba(245,243,238,0.7);
+  min-height: 44px; display: inline-flex; align-items: center;
+  transition: color 0.3s;
+}
+.pie-nav a:hover { color: var(--copper-soft); }
+
+.skip-link {
+  position: fixed; top: -100px; left: 1rem; z-index: 300;
+  background: var(--ink); color: var(--ivory);
+  padding: 0.9rem 1.4rem; border-radius: 99px;
+  font-size: 0.9rem; transition: top 0.2s var(--ease-out);
+}
+.skip-link:focus { top: 1rem; }
+
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 3px; border-radius: 4px;
+}
+.hero a:focus-visible, .escena a:focus-visible,
+.band a:focus-visible, .site-footer a:focus-visible { outline-color: var(--copper-soft); }
+
+/* El velo del hero caía a 0.05 justo donde se apoyan la marca
+   y el remate dorado: ahí no se leían. */
+.hero-veil {
+  background: linear-gradient(180deg, rgba(10,14,28,0.62) 0%, rgba(10,14,28,0.34) 40%, rgba(10,14,28,0.85) 100%);
+}
+
+/* Filtros y enlaces de mapa a 44px reales */
+.rf { min-height: 44px; padding: 0.7rem 1.2rem; font-size: 0.78rem; }
+.rec-map { min-height: 44px; display: inline-flex; align-items: center; font-size: 0.85rem; }
+
+/* ============================================================
+   CICLO 7 — la raíz, no el cuerpo
+   ============================================================ */
+html { font-size: 17px; }
+body { font-size: 1rem; }
+.escena-title, .section-title, .contact-title, .hero-title { line-height: 1.1; }
+.header-cta, .btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+
+/* ============================================================
+   CICLO 8 — cuerpo y medida en móvil
+   ============================================================ */
+.project-desc, .method-step p, .contact-cols p, .rec-data dd { font-size: 1rem; }
+.rt-label, .stat-label, .rec-note { font-size: 0.97rem; }
+@media (max-width: 700px) {
+  .rec, .project, .method-step { padding-left: 1.15rem; padding-right: 1.15rem; }
+  .record, .range, .projects, .method, .contact, .legacy { padding-left: 1.1rem; padding-right: 1.1rem; }
+  .escena-inner { margin-left: 1.1rem; max-width: calc(100% - 2.2rem); }
+}
+
+/* Misma calibración: 54ch ≈ 66 caracteres reales en esta familia. */
+.section-body, .escena-sub, .hero-sub, .contact-sub { max-width: 54ch; }
+.project-desc, .method-step p, .contact-cols p { max-width: 50ch; }
+
+/* Los puntos de capítulo medían 7px y el enlace 17 de alto:
+   imposible de acertar con el dedo en tableta. */
+.chapter-nav a { min-height: 44px; align-items: center; }
+.chapter-nav i { width: 9px; height: 9px; }
+.manifesto-text { line-height: 1.22; }
