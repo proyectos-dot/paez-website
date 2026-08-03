@@ -31,7 +31,6 @@ body {
   font-family: var(--sans);
   background: var(--ivory);
   color: var(--ink);
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   line-height: 1.6;
 }
